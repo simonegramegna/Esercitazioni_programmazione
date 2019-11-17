@@ -15,6 +15,8 @@ int main()
     int n,k;
     int div;
 
+    setbuf(stdout, NULL);
+
     printf("Inserisci il dividendo \n");
         scanf("%d" ,&n);
 
