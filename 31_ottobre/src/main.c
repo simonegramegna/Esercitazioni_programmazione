@@ -10,8 +10,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// righe e colonne della matrice
 #define RIGHE 4
 #define COLONNE 3
+
 #define COND 3
 #define MAX 10
 
