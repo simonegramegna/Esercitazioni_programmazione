@@ -33,11 +33,17 @@ return 0;
 
 int SommaVet( int vet[] ,int dim )
 {
-	// eseguo la somma finche' ci sono elementi nel vettore
-	if( dim != 0 )
+	
+	int somma;
+
+	if(dim == 1)
 	{
-		return  vet[dim-1] + SommaVet(vet,dim-1);
+		somma = vet[0];
 	}
-	return 0;
+	else
+	{
+		somma = vet[dim-1] + SommaVet(vet,dim-1);
+	}
+	return somma;
 }
 

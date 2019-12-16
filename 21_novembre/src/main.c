@@ -10,53 +10,39 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define DIM 3
+#define DIMVET 10 
 
-// funzione per prendere in input una stringa di dimensione N
+// funzione per allocare il vettore di stringhe
+void AllocaVetString( char** vetstring, int dim );
 
-void InputString(char** VetString, int dim);
-
-int CalcolaLunghezza( char* str);
+// funzione per calcolare la lunghezza della stringa
+int LenString( char* str );
 
 int main()
 {
 
-	char** stringhe;
+	int x = LenString("Simone\0");
 
-	stringhe = (char**) calloc(DIM,sizeof(char*));
-
-	InputString(stringhe, DIM );
+	printf("%d" ,x);
 
 	return 0;
 
-
 }
 
-int CalcolaLunghezza( char* str )
+
+void AllocaVetString( char** vetstring, int dim )
+{
+	vetstring = (char**) calloc(dim,sizeof(char*));
+}
+
+int LenString( char* str )
 {
 	int i = 0;
-	int len;
 
-	while(*(str+i) != '\0')
+	while(*(str +i ) != '\0')
 	{
 		i = i + 1;
 	}
 
-	len = i;
-
-	return len;
-}
-
-void InputString(char** VetString, int dim)
-{
-	int i = 0;
-
-	while( i < dim )
-	{
-
-		printf("Inserisci una stringa \n");
-			scanf("%s" ,*(VetString + i));
-
-		i = i + 1;
-	}
+	return i;
 }

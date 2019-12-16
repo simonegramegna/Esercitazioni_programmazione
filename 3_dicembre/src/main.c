@@ -53,16 +53,27 @@ void AllocaStudenti(studente* s1, int num_studenti );
 // funzione per deallocare il vettore di studenti
 void DeallocaStudenti( studente* s1 );
 
-
 // funzione ricerca lineare dello studente per nominativo
 int CercaNominativo(studente elenco[], int dim, stringa nome_studente );
 
 // funzione ricerca binaria della matricola dello studente
 int CercaMatricola( studente elenco[], int dim, int numero_matricola );
 
+// funzione menu utente
+void menu( studente elenco[], int dim );
+
+// funzione per stampare i risultati ottenuti dalla ricerca per nome o per matricola
+void StampaRisultati( int result, int dim );
+
+
 int main()
 {
 
+	menu();
+
+
+	system("pause");
+return 0;
 }
 
 void LeggiNome( studente s1, stringa nome )
@@ -172,7 +183,7 @@ int CercaNominativo(studente elenco[], int dim, stringa nome_studente )
 
 int CercaMatricola( studente elenco[], int dim, int numero_matricola )
 {
-	// valore che mi restituirà la posizione dell'elemento trovato
+	// valore che mi restituirï¿½ la posizione dell'elemento trovato
 	int position = -1;
 
 	// definisco l'estremo inferiore e superiore iniziale
@@ -207,9 +218,54 @@ int CercaMatricola( studente elenco[], int dim, int numero_matricola )
 	return position;
 }
 
+void menu( studente elenco[], int dim )
+{
+	int scelta;
+	printf("Premi 1 per effettuare la ricerca per nome\nPremi 2 per effettura la ricerca per matricola\nPremi 3 per uscire");
 
+	scanf("%d" ,&scelta);
 
+	while( scelta == 2 || scelta == 1 )
+	{
+		if( scelta == 1 )
+		{
+			int ricerca_studente_none;
+			stringa nome_studente;
 
+			printf("Inserisci il nome dello studente da cercare\n");
+				scanf("%s" ,nome_studente);
+
+				ricerca_studente = CercaNominativo(elenco,dim,nome_studente_nome);
+
+				StampaRisultati(ricerca_studente_nome,dim);
+		}
+		else
+		{
+			int ricerca_studente_matricola;
+			int matricola_ricerca;
+
+			printf("Inserisci il numero di matricola dello studente che vuoi cercare \n");
+				scanf("%d" ,&matricola_ricerca);
+
+				ricerca_studente_matricola = CercaMatricola(elenco,dim,matricola_ricerca);
+
+				StampaRisultati(ricerca_studente_matricola, dim);
+		}
+	}
+}
+
+void StampaRisultati( int result, int dim )
+{
+	if( result > -1 && result < dim )
+	{
+		printf("Lo studente selezionato e' presente nella %d poszione del vettore degli studenti\n");
+	}
+	else
+	{
+		printf("Lo studente selezionato non e' presente nel vettore \n");
+	}
+	
+}
 
 
 
