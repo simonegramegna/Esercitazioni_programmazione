@@ -58,8 +58,11 @@ int CercaMatricola(studente elenco[], int dim, int n_matricola);
 // funzione per cercare uno studente per nominativo
 int CercaNome( studente elenco[], int dim, stringa nome_studente );
 
-// funzione che stampa la presenza di uno studente
-void StampaPresenza( int res );
+// funzione per stampare la presenza di un nome
+void StampaPresenzaNome(studente elenco[], int dim, int index);
+
+// funzione per stampare la presenza di un numero di matricola
+void StampaPresenzaMatricola( studente elenco[], int dim, int index );
 
 int main()
 {
@@ -82,22 +85,7 @@ int main()
 	// dichiaro l'elenco degli studenti
 	studente elenco_studenti[DIM] = { simone, antonio, luigi };
 
-	// cerco uno studente per numero di matricola
-
-	int m = 404;
-
-	int f1 = CercaMatricola(elenco_studenti,DIM, m);
-
-	StampaPresenza( f1 );
-
-	// cerco uno studente per nominativo
-
-	stringa nome_prova = "simone\0";
-
-	int f2 = CercaNome(elenco_studenti,DIM,nome_prova);
-
-	StampaPresenza(f2);
-
+	// SISTEMA!!!!!
 
 		system("pause");
 	return 0;
@@ -156,14 +144,14 @@ void DeallocaVoti( studente* s1 )
 int CercaMatricola(studente elenco[], int dim, int n_matricola)
 {
 	int i = 0;
-	int found = 0;
+	int index_found = -1;
 
-	while( i < dim && found == 0 )
+	while( i < dim && index_found == -1 )
 	{
 
 		if( LeggiMatricola(elenco[i]) == n_matricola )
 		{
-			found = 1;
+			index_found = i;
 		}
 
 		i = i + 1;
@@ -176,9 +164,9 @@ int CercaNome( studente elenco[], int dim, stringa nome_studente )
 {
 
 	int i = 0;
-	int found = 0;
+	int index_found = -1;
 
-	while( i < dim && found == 0 )
+	while( i < dim && index_found == -1 )
 	{
 
 		stringa nome_confronto;
@@ -189,7 +177,7 @@ int CercaNome( studente elenco[], int dim, stringa nome_studente )
 
 		if( string_compare == 0 )
 		{
-			found = 1;
+			index_found = i;
 		}
 
 		i = i + 1;
@@ -198,16 +186,21 @@ int CercaNome( studente elenco[], int dim, stringa nome_studente )
 	return found;
 }
 
-void StampaPresenza( int res )
+void StampaPresenzaNome(studente elenco[], int dim, int index)
 {
-	if( res == 1 )
+
+	if( index > -1 && index < dim )
 	{
-		printf("Lo studente cercato e' presente \n");
+		stringa nome_stampa = LeggiMatricola(elenco[index]);
+
+		printf("La matricola %s cercata e' presente nel vettore \n" ,nome_stampa);
 	}
 	else
 	{
-		printf("Lo studente cercato non e' presente \n");
+		printf("La matricola inserita non e' presente nel vettore \n");
 	}
+	
+
 }
 
 

@@ -69,7 +69,18 @@ void StampaRisultati( int result, int dim );
 int main()
 {
 
-	menu();
+	// creo elenco di studenti
+	studente* elenco_studenti;
+	int numstudenti = 7;
+
+	AllocaStudenti(elenco_studenti,numstudenti);
+
+	// scrivo le informazioni del primo studente
+	ScriviNome((s1+0),"Simone\0");
+
+
+
+
 
 
 	system("pause");

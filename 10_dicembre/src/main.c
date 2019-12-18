@@ -4,122 +4,89 @@
  *  Created on: 10 dic 2019
  *      Author: simone
  */
-
-
 #include <stdio.h>
 #include <stdlib.h>
 
-// funzione per leggere numero caratteri del file
-int NumCaratteri( FILE* fp );
+/ Funzione per stampare un carattere ogni 'num' nel file
+void StampaUnoN(FILE* fp, int num);
 
-// funzione per allocare vettore di caratteri
-void AllocVet( char* vetcaratteri, int dim );
-
-// funzione per calcolare la dimensione dei caratteri da stampare
-int DimVetStampa( int dim_init, int freq );
-
-// funzione che stampa il numero di caratteri trovati
-void StampaContaCarattere( int res );
-
-// funzione di stampa della sequenza
-void StampaSequenza( char* seq, int dim );
-
-// funzione che dealloca il vettore
-void freevet( char* ch );
-
+// funzione per contare quante volte compare il carattere selezionato nel file ogni num cratteri stampati
+int NumCarattere(FILE* fp, int num, char c_selected);
 
 int main()
 {
-	FILE* fp;
-	char* vetc;
-	int num3 = 3;
 
-	fp = fopen("file.txt","r");
+    FILE* f_read;
 
-	if( fp == NULL )
-	{
+    f_read = fopen("file.txt","r");
 
-		printf("Errore: file non aperto \n");
+    if(f_read == NULL)
+    {
+        printf("Errore: file non aperto \n");
+    }
 
-	}
+    int num;
+    char choose;
 
-	int dimf = NumCaratteri(fp);
+    printf("Inserisci la frequenza di caratteri da stampare \n");
+        scanf("%d" ,&num);
 
-	int dimall = DimVetStampa(dimf , num3);
+        // svuoto il buffer di input
+        fflush(stdin);
 
-	AllocVet(vetc, dimall);
+    printf("\nInserisci il carattere da contare tra i caratteri stampati dal file\n");
+        scanf("%c" ,&choose);
 
-	// riposiziono la testina di lettura del file all'inizio del file
-	rewind(fp);
+        StampaUnoN(f_read,num);
 
-	char* s = UnoN(&vetc,dimall,num3,fp);
+        // riporto la testina all'inizio del file
+        rewind(f_read);
 
-	int x = 0;
+        int num_caratteri = NumCarattere(f_read,num,choose);
 
-	while( x < dimall )
-	{
-		printf("%c \n" ,*(s+x));
-		x++;
-	}
-
-
-	//int x = ContaCarattere(vetc, dimall, 'f' );
-
-	//StampaContaCarattere(x);
-
-
-	freevet(vetc);
-
-	fclose(fp);
-
-	system("pause");
-return 0;
+        printf("Il carattere %c e' presente %d volte tra i caratteri stampati \n" ,choose,num);
+        
+        system("pause");
+    return 0;
 }
 
-int NumCaratteri( FILE* fp )
+void StampaUnoN(FILE* fp, int num)
 {
+    
+    int i = 1;
 
-	int numcaratteri = 0;
+    while( !feof(fp) )
+    {
+        
+        char c_print = fgetc(fp);
 
-	char c1 = fgetc(fp);
-
-	while( c1 != EOF )
-	{
-		c1 = fgetc(fp);
-		numcaratteri = numcaratteri + 1;
-	}
-	return numcaratteri;
+        if( i % num == 0)
+        {
+            printf(" %c ",c_print);
+        }
+        
+        i =  i + 1;
+    }
 }
 
-void AllocVet( char* vetcaratteri, int dim )
+int NumCarattere(FILE* fp, int num, char c_selected)
 {
-	vetcaratteri = (char*) calloc(dim,sizeof(char));
+    int i = 1;
+    int count_char = 0;
+
+    while( !feof(fp) )
+    {
+
+        char c_conf = fgetc(fp);
+
+        if( (i % num == 0 ) && (c_conf == c_selected))
+        {
+            count_char = count_char + 1;
+        }
+
+        i = i + 1;
+    }
+
+    return count_char;
 }
 
-int DimVetStampa( int dim_init, int freq )
-{
-	int dimvet = (int) dim_init / freq;
-
-	return dimvet;
-}
-
-void StampaContaCarattere( int res )
-{
-	printf("Il carattere e' presente %d volte" ,res);
-}
-
-void StampaSequenza( char* seq, int dim )
-{
-	int i = 0;
-
-	while( i < dim )
-	{
-		printf(" %c " ,*(seq + i));
-		i = i + 1;
-	}
-}
-
-void freevet( char* ch )
-{
-	free(ch);
-}
