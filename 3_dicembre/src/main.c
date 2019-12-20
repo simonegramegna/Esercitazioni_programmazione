@@ -2,16 +2,28 @@
  * main.c
  *
  *  Created on: 3 dic 2019
- *      Author: Gramegna Simone
+ * 
+ *  Author: Gramegna Simone
+ * 
  */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
+// dimensione massima della stringa
 #define DIMSTRING 50
 
+// definisco la dimesione dell'elenco degli studenti
+#define NUMSTUDENTI 5
+
+// definisco il valore sentinella per cui i voti di uno studente terminano
+#define SENTINEL -1
+
+// definizione tipo di dato stringa
 typedef char stringa[DIMSTRING];
 
+// definizione tipo di dato studente
 typedef struct{
 
 	stringa nome;
@@ -47,40 +59,139 @@ void AllocaVoti(studente* s1, int dim );
 // funzione che dealloca il vettore dei voti
 void DeallocaVoti( studente* s1 );
 
-// funzione per allocare dinamicamente vettore di studenti
-void AllocaStudenti(studente* s1, int num_studenti );
-
-// funzione per deallocare il vettore di studenti
-void DeallocaStudenti( studente* s1 );
-
 // funzione ricerca lineare dello studente per nominativo
 int CercaNominativo(studente elenco[], int dim, stringa nome_studente );
 
 // funzione ricerca binaria della matricola dello studente
 int CercaMatricola( studente elenco[], int dim, int numero_matricola );
 
-// funzione menu utente
-void menu( studente elenco[], int dim );
+// funzione per la stampa della media di uno studente
+void StampaMedia( studente elenco[], int index, int dim );
 
 // funzione per stampare i risultati ottenuti dalla ricerca per nome o per matricola
-void StampaRisultati( int result, int dim );
+void StampaRisultati( studente elenco[], int dim, int risultato_ricerca );
 
+// funzione per rendere minuscolo il nome cercato dall'utente
+void LowerString( stringa n1 );
 
 int main()
 {
 
-	// creo elenco di studenti
-	studente* elenco_studenti;
-	int numstudenti = 7;
+	studente elenco_studenti[NUMSTUDENTI];
 
-	AllocaStudenti(elenco_studenti,numstudenti);
+	/*********studente[0]***************************/
 
-	// scrivo le informazioni del primo studente
-	ScriviNome((s1+0),"Simone\0");
+	int numvoti_studente0 = 3;
+	int matricola0 = 13;
 
+	ScriviNome(&(elenco_studenti[0]),"simone\0");
+	ScriviMatricola(&(elenco_studenti[0]), matricola0);
 
+	AllocaVoti(&(elenco_studenti[0]), numvoti_studente0);
 
+	ScriviVoto(&(elenco_studenti[0]), 0, 25);
+	ScriviVoto(&(elenco_studenti[0]), 1, 28);
+	ScriviVoto(&(elenco_studenti[0]), 2, SENTINEL);
 
+	/***************studente[1]****************************/
+
+	int numvoti_studente1 = 4;
+	int matricola1 = 63;
+
+	ScriviNome(&(elenco_studenti[1]),"fabio\0");
+	ScriviMatricola(&(elenco_studenti[1]), matricola1);
+
+	
+	AllocaVoti(&(elenco_studenti[1]), numvoti_studente1);
+
+	ScriviVoto(&(elenco_studenti[1]), 0, 25);
+	ScriviVoto(&(elenco_studenti[1]), 1, 30);
+	ScriviVoto(&(elenco_studenti[1]), 2, 26);
+	ScriviVoto(&(elenco_studenti[1]), 3, SENTINEL);
+
+	/***********studente[2]*****************************/
+
+	int numvoti_studente2 = 2;
+	int matricola2 = 45;
+
+	ScriviNome(&(elenco_studenti[2]),"luigi\0");
+	ScriviMatricola(&(elenco_studenti[2]), matricola2);
+
+	AllocaVoti(&(elenco_studenti[2]), numvoti_studente2);
+
+	ScriviVoto(&(elenco_studenti[2]), 0, 25);
+	ScriviVoto(&(elenco_studenti[2]), 1, SENTINEL);
+	
+	/***********studente[3]***************************/
+
+	int numvoti_studente3 = 2;
+	int matricola3 = 73;
+
+	ScriviNome(&(elenco_studenti[3]),"giuseppe\0");
+	ScriviMatricola(&(elenco_studenti[3]), matricola3);
+
+	AllocaVoti(&(elenco_studenti[3]), numvoti_studente3);
+
+	ScriviVoto(&(elenco_studenti[3]), 0, 25);
+	ScriviVoto(&(elenco_studenti[3]), 1, SENTINEL);
+
+	/**********studente[4]*************************/
+
+	int numvoti_studente4 = 5;
+	int matricola4 = 63;
+
+	ScriviNome(&(elenco_studenti[4]),"michela\0");
+	ScriviMatricola(&(elenco_studenti[4]), matricola4);
+
+	// 
+	AllocaVoti(&(elenco_studenti[4]), numvoti_studente4);
+
+	ScriviVoto(&(elenco_studenti[4]), 0, 25);
+	ScriviVoto((&elenco_studenti[4]), 1, 27);
+	ScriviVoto(&(elenco_studenti[4]), 2, 22);
+	ScriviVoto((&elenco_studenti[4]), 3, 21);
+	ScriviVoto(&(elenco_studenti[4]), 4, SENTINEL);
+
+	int scelta;
+
+	printf("Premi 1 per effettuare la ricerca per nome\nPremi 2 per effettura la ricerca per matricola\nPremi 3 per uscire \n");
+		scanf("%d" ,&scelta);
+
+	if( scelta == 1 )
+	{
+
+		stringa nome_ricerca;
+
+		printf("Inserisci il nome dello studente da cercare \n");
+			scanf("%s" ,nome_ricerca);
+
+			LowerString(nome_ricerca);
+
+			int risultato_cerca_nome = CercaNominativo(elenco_studenti, NUMSTUDENTI, nome_ricerca);
+
+			StampaRisultati(elenco_studenti, NUMSTUDENTI, risultato_cerca_nome);
+			StampaMedia( elenco_studenti, risultato_cerca_nome, NUMSTUDENTI	);
+	
+	}
+	else if( scelta == 2 )
+	{
+
+		int matricola_ricerca;
+
+		printf("Inserisci la matricola dello studente da cercare \n");
+			scanf("%d" ,matricola_ricerca);
+
+			int risultato_cerca_matricola = CercaMatricola(elenco_studenti, NUMSTUDENTI, matricola_ricerca);
+
+			StampaRisultati(elenco_studenti, NUMSTUDENTI, risultato_cerca_matricola);
+			StampaMedia(elenco_studenti, risultato_cerca_matricola, NUMSTUDENTI);
+
+	}
+	else
+	{
+		printf("Sto uscendo dal programma...\n");
+	}
+	
 
 
 	system("pause");
@@ -134,6 +245,7 @@ float MediaVoti( studente s1 )
 	int somma = 0;
 	float media;
 
+	// leggo i voti finche non trovo un vlaore sentinella minore di 0
 	while( LeggiVoto(s1,c) > 0 )
 	{
 		somma = somma + LeggiVoto(s1,c);
@@ -154,16 +266,6 @@ void AllocaVoti(studente* s1, int dim )
 void DeallocaVoti( studente* s1 )
 {
 	free(s1->voti);
-}
-
-void AllocaStudenti(studente* s1, int num_studenti )
-{
-	s1 = (studente*) calloc(num_studenti, sizeof(studente) );
-}
-
-void DeallocaStudenti( studente* s1 )
-{
-	free(s1);
 }
 
 int CercaNominativo(studente elenco[], int dim, stringa nome_studente )
@@ -194,7 +296,7 @@ int CercaNominativo(studente elenco[], int dim, stringa nome_studente )
 
 int CercaMatricola( studente elenco[], int dim, int numero_matricola )
 {
-	// valore che mi restituir� la posizione dell'elemento trovato
+	// valore che mi restituira la posizione dell'elemento trovato
 	int position = -1;
 
 	// definisco l'estremo inferiore e superiore iniziale
@@ -212,11 +314,11 @@ int CercaMatricola( studente elenco[], int dim, int numero_matricola )
 		// calcolo l'indice medio
 		int medio = (int) (inf+sup) / 2;
 
-		if( numero_matricola > elenco[medio] )
+		if( numero_matricola > LeggiMatricola(elenco[medio]) )
 		{
 			inf = medio + 1;
 		}
-		else if( numero_matricola < elenco[medio] )
+		else if( numero_matricola < LeggiMatricola(elenco[medio]) )
 		{
 			sup = medio - 1;
 		}
@@ -229,57 +331,45 @@ int CercaMatricola( studente elenco[], int dim, int numero_matricola )
 	return position;
 }
 
-void menu( studente elenco[], int dim )
+void StampaRisultati( studente elenco[], int dim, int risultato_ricerca )
 {
-	int scelta;
-	printf("Premi 1 per effettuare la ricerca per nome\nPremi 2 per effettura la ricerca per matricola\nPremi 3 per uscire");
-
-	scanf("%d" ,&scelta);
-
-	while( scelta == 2 || scelta == 1 )
+	if( risultato_ricerca > -1 && risultato_ricerca < dim )
 	{
-		if( scelta == 1 )
-		{
-			int ricerca_studente_none;
-			stringa nome_studente;
-
-			printf("Inserisci il nome dello studente da cercare\n");
-				scanf("%s" ,nome_studente);
-
-				ricerca_studente = CercaNominativo(elenco,dim,nome_studente_nome);
-
-				StampaRisultati(ricerca_studente_nome,dim);
-		}
-		else
-		{
-			int ricerca_studente_matricola;
-			int matricola_ricerca;
-
-			printf("Inserisci il numero di matricola dello studente che vuoi cercare \n");
-				scanf("%d" ,&matricola_ricerca);
-
-				ricerca_studente_matricola = CercaMatricola(elenco,dim,matricola_ricerca);
-
-				StampaRisultati(ricerca_studente_matricola, dim);
-		}
-	}
-}
-
-void StampaRisultati( int result, int dim )
-{
-	if( result > -1 && result < dim )
-	{
-		printf("Lo studente selezionato e' presente nella %d poszione del vettore degli studenti\n");
+		printf("Lo studente selezionato e' presente nella %d posizione del vettore degli studenti\n");
 	}
 	else
 	{
 		printf("Lo studente selezionato non e' presente nel vettore \n");
 	}
-	
 }
 
+void StampaMedia( studente elenco[], int index, int dim )
+{
+	if( index > -1 && index < dim )
+	{
 
+		float media_studente = MediaVoti( elenco[index] );
 
+		printf("La media dello studente selezionato e' %.2f \n" ,media_studente);
+
+	}
+}
+
+void LowerString( stringa n1 )
+{
+
+	int i = 0;
+
+	while( n1[i] != '\0' )
+	{
+
+		n1[i] = tolower(n1[i]);
+
+		i = i + 1;
+
+	}
+
+}
 
 
 
