@@ -165,10 +165,12 @@ int main()
 		printf("Inserisci il nome dello studente da cercare \n");
 			scanf("%s" ,nome_ricerca);
 
+			// traformo la stringa in lowercase
 			LowerString(nome_ricerca);
 
 			int risultato_cerca_nome = CercaNominativo(elenco_studenti, NUMSTUDENTI, nome_ricerca);
 
+			// stmpo i risultati
 			StampaRisultati(elenco_studenti, NUMSTUDENTI, risultato_cerca_nome);
 			StampaMedia( elenco_studenti, risultato_cerca_nome, NUMSTUDENTI	);
 	
@@ -192,8 +194,6 @@ int main()
 		printf("Sto uscendo dal programma...\n");
 	}
 	
-
-
 	system("pause");
 return 0;
 }

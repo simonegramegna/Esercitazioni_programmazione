@@ -7,86 +7,99 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/ Funzione per stampare un carattere ogni 'num' nel file
-void StampaUnoN(FILE* fp, int num);
+// funzione per stamapre la sequenza di caratteri secondo la frequenza desiderata
+void StampaNcarattteri( FILE* file_caratteri, int frequenza );
 
-// funzione per contare quante volte compare il carattere selezionato nel file ogni num cratteri stampati
-int NumCarattere(FILE* fp, int num, char c_selected);
+// funzione per contare il numero di presenza di un carattere tra quelli stampati
+int ContaCarattereSelezionato( FILE* file_caratteri, int frequenza, char carattere_selezionato );
 
 int main()
 {
 
-    FILE* f_read;
+    FILE* file_read;
 
-    f_read = fopen("file.txt","r");
+    file_read = fopen("file.txt","r");
 
-    if(f_read == NULL)
+    if( file_read == NULL )
     {
-        printf("Errore: file non aperto \n");
+        printf("ERRORE: file non aperto! \n");
     }
+    else
+    {
 
-    int num;
-    char choose;
+        int frequenza_caratteri_stampa;
+        char seleziona_carattere;
 
-    printf("Inserisci la frequenza di caratteri da stampare \n");
-        scanf("%d" ,&num);
+        printf("Inserisci la frequenza di caratteri da stampare nel file \n");
+            scanf("%d" ,&frequenza_caratteri_stampa);
 
-        // svuoto il buffer di input
+        StampaNcarattteri(file_read, frequenza_caratteri_stampa);
+
+        // riporto testina all'inizio del file
+        rewind(file_read);
+
+        // svuoto buffer di input
         fflush(stdin);
 
-    printf("\nInserisci il carattere da contare tra i caratteri stampati dal file\n");
-        scanf("%c" ,&choose);
-
-        StampaUnoN(f_read,num);
-
-        // riporto la testina all'inizio del file
-        rewind(f_read);
-
-        int num_caratteri = NumCarattere(f_read,num,choose);
-
-        printf("Il carattere %c e' presente %d volte tra i caratteri stampati \n" ,choose,num);
+        printf("\nInserisci il carattere di cui vuoi contare la frequenza tra i caratteri stampati \n");
+            scanf("%c" ,&seleziona_carattere);
         
+        int num_caratteri = ContaCarattereSelezionato( file_read, frequenza_caratteri_stampa, seleziona_carattere );
+
+        printf("La frequenza del carattere selezionato tra quelli stampati e' %d \n" ,num_caratteri);
+
+    }
+
         system("pause");
     return 0;
 }
 
-void StampaUnoN(FILE* fp, int num)
-{
-    
-    int i = 1;
 
-    while( !feof(fp) )
+void StampaNcarattteri( FILE* file_caratteri, int frequenza )
+{
+    int count = 1;
+
+    if( frequenza > 0 )
     {
         
-        char c_print = fgetc(fp);
-
-        if( i % num == 0)
+        while( !feof(file_caratteri) )
         {
-            printf(" %c ",c_print);
+
+            char carattere_file = fgetc(file_caratteri);
+
+            if( count % frequenza == 0 )
+            {
+                printf(" %c " ,carattere_file);
+            }
+
+            count = count + 1;
         }
-        
-        i =  i + 1;
     }
 }
 
-int NumCarattere(FILE* fp, int num, char c_selected)
+int ContaCarattereSelezionato( FILE* file_caratteri, int frequenza, char carattere_selezionato )
 {
-    int i = 1;
-    int count_char = 0;
 
-    while( !feof(fp) )
+    int count = 1;
+    int count_caratteri = 0;
+
+    if( frequenza > 0 )
     {
-
-        char c_conf = fgetc(fp);
-
-        if( (i % num == 0 ) && (c_conf == c_selected))
+        while( !feof(file_caratteri) )
         {
-            count_char = count_char + 1;
-        }
 
-        i = i + 1;
+            char carattere_file = fgetc(file_caratteri);
+
+            if( count % frequenza == 0 && carattere_file == carattere_selezionato )
+            {
+                count_caratteri = count_caratteri + 1;
+            }
+
+            count = count + 1;
+        }
     }
 
-    return count_char;
+    return count_caratteri;
 }
+
 
