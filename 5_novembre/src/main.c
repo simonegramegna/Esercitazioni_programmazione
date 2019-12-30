@@ -6,7 +6,6 @@
  *  Author: Gramegna Simone
  *
  */
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -100,11 +99,18 @@ int main()
     // somma delle due matrici
         somma(&somma0, matrix, matrix2, R1, C1, R2, C2 );
 
+    printf("La prima matrice e': \n");
+        StampaMatrice(matrix, R1, C1);
+    
+    printf("\nLa seconda matrice e': \n");
+        StampaMatrice(matrix2,R2,C2);
+
+
     // stampo i risultati ottenuti
-    printf("Il prodotto scalare tra la prima matrice e %f equivale a: \n");
+    printf("\nIl prodotto scalare tra la prima matrice e %.2f equivale a: \n" ,s1);
         StampaMatrice(scalare0,R1,C1);
 
-    printf("\n La somma tra le due matrici matrix e matrix2 equivale a: \n");
+    printf("\nLa somma tra le due matrici matrix e matrix2 equivale a: \n");
         StampaMatrice(somma0,R1,C1);
 
     system("pause");
@@ -207,7 +213,7 @@ void StampaMatrice( matrice m_stampa, int righe, int colonne )
 
         while( j < colonne )
         {
-            printf(" %.2f ", LeggiElemento(m_stampa, i, j) );
+            printf(" %.2f \n", LeggiElemento(m_stampa, i, j) );
 
             j = j + 1;
         }

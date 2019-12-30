@@ -65,6 +65,7 @@ void StampaMatrice( matrice m_stampa, int righe, int colonne );
 int main()
 {
 
+    // matrici su cui effettuare le operazioni richieste
     matrice m1;
     matrice m2;
     matrice m_trasposta;
@@ -100,13 +101,21 @@ int main()
     // calcolo la matrice trasposta di m1
     Trasposta(&m_trasposta,m1,R1,C1);
 
-
+    // stampo la matrice di cui calcolare la trasposta
+    printf("La matrice m1 e' :\n");
+        StampaMatrice(m1, R1, C1);
+    
     // stampo i risultati ottenuti
 
     printf("La matrice trasposta di m1 e': \n");
         StampaMatrice( m_trasposta, LeggiRighe(m_trasposta), LeggiColonne(m_trasposta) );
 
-    printf("\n Il prodotto delle due matrici m1 ed m2 e'\n");
+    // stampo la matrice da sommare a m1
+    printf("La matrice m2 da sommare a m1 e':\n");
+        StampaMatrice(m2 ,R2,C2);
+
+    // stampo il prodotto tra la matrice m1 ed m2
+    printf("\nIl prodotto delle due matrici m1 ed m2 e'\n");
         StampaMatrice(m_prodotto,LeggiRighe(m_prodotto), LeggiColonne(m_prodotto) );
 
     system("pause");
@@ -230,7 +239,7 @@ void StampaMatrice( matrice m_stampa, int righe, int colonne )
         while( j < colonne )
         {
 
-            printf(" %.2f ", LeggiElemento(m_stampa, i, j) );
+            printf(" %.2f \n", LeggiElemento(m_stampa, i, j) );
 
             j = j + 1;
         }

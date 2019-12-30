@@ -152,6 +152,8 @@ int main()
 	ScriviVoto((&elenco_studenti[4]), 3, 21);
 	ScriviVoto(&(elenco_studenti[4]), 4, SENTINEL);
 
+	// l'utente seleziona il tipo di ricerca da effetuare
+
 	int scelta;
 
 	printf("Premi 1 per effettuare la ricerca per nome\nPremi 2 per effettura la ricerca per matricola\nPremi 3 per uscire \n");
@@ -165,7 +167,7 @@ int main()
 		printf("Inserisci il nome dello studente da cercare \n");
 			scanf("%s" ,nome_ricerca);
 
-			// traformo la stringa in lowercase
+			// trasformo la stringa in lowercase
 			LowerString(nome_ricerca);
 
 			int risultato_cerca_nome = CercaNominativo(elenco_studenti, NUMSTUDENTI, nome_ricerca);
@@ -233,6 +235,7 @@ int LeggiVoto( studente s1, int index )
 
 void ScriviVoto( studente* s1, int index, int value )
 {
+	// il voto sara' scritto solo se l'indice e' valido
 	if( index >= 0 )
 	{
 		*(s1->voti + index) = value;
@@ -363,6 +366,7 @@ void LowerString( stringa n1 )
 	while( n1[i] != '\0' )
 	{
 
+		// rendo il carattere idi ogni nome minuscolo im modo da evitare ambiguità
 		n1[i] = tolower(n1[i]);
 
 		i = i + 1;
